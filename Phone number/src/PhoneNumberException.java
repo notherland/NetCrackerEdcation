@@ -1,3 +1,6 @@
+/**
+ * Exception class for wrong number format
+ */
 public class PhoneNumberException extends Exception{
     private String phonenumber;
 
