@@ -24,7 +24,7 @@ public class PersonTest {
         String text = GOOD[0];
         Person person = new Person(new Date(101, 2, 23, 12, 54));
         Assert.assertEquals("Person failed with this text:\n" + text + "\n",
-                "2001-03-23", person.toString(new SimpleDateFormat(text)));
+                "2001-03-23", person.toStringbyFormat(new SimpleDateFormat(text)));
     }
 
     @Test
@@ -32,7 +32,7 @@ public class PersonTest {
         String text = GOOD[1];
         Person person = new Person(new Date(101, 2, 23, 12, 54));
         Assert.assertEquals("Person failed with this text:\n" + text + "\n",
-                "пт, мар. 23, '01", person.toString(new SimpleDateFormat(text)));
+                "пт, мар. 23, '01", person.toStringbyFormat(new SimpleDateFormat(text)));
     }
 
     @Test
@@ -40,6 +40,6 @@ public class PersonTest {
         String text = GOOD[2];
         Person person = new Person(new Date(101, 2, 23, 12, 54));
         Assert.assertEquals("Person failed with this text:\n" + text + "\n",
-                "12 o'clock PM, Москва, стандартное время", person.toString(new SimpleDateFormat(text)));
+                "12 o'clock PM, Москва, стандартное время", person.toStringbyFormat(new SimpleDateFormat(text)));
     }
 }

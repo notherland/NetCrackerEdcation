@@ -11,7 +11,14 @@ public class Person {
         bdate = date;
     }
 
-    public String toString(SimpleDateFormat format) {
+    @Override
+    public String toString() {
+        return "Person{" +
+                "bdate=" + bdate +
+                '}';
+    }
+
+    public String toStringbyFormat(SimpleDateFormat format) {
         StringBuffer result = new StringBuffer();
         System.out.println(format);
         System.out.println(format.format(bdate));
