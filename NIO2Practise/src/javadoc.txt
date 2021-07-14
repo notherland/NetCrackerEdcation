@@ -1,0 +1,55 @@
+The log4j.properties file
+The log4j.properties file sets the logging properties.
+
+You can modify the log4j.properties file to change the properties for the log4j loggers.
+
+Default log4j properties
+The default log4j.properties file has this configuration:
+log4j.rootLogger=ERROR,stdout
+log4j.logger.com.endeca=INFO
+# Logger for crawl metrics
+log4j.logger.com.endeca.itl.web.metrics=INFO
+
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=%p\t%d{ISO8601}\t%r\t%c\t[%t]\t%m%n
+The presence of only the ConsoleAppender means that the standard output is directed to the console, not to a log file.
+
+Logging to a file
+You can change the default log4j.properties configuration so that messages are logged only to a file or to both the console and a file. For example, you would change the above configuration to a configuration similar to this:
+# initialize root logger with level ERROR for stdout and fout
+log4j.rootLogger=ERROR,stdout,fout
+# set the log level for these components
+log4j.logger.com.endeca=INFO
+log4j.logger.com.endeca.itl.web.metrics=INFO
+
+# add a ConsoleAppender to the logger stdout to write to the console
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+# use a simple message format
+log4j.appender.stdout.layout.ConversionPattern=%m%n
+
+# add a FileAppender to the logger fout java
+log4j.appender.fout=org.apache.log4j.FileAppender
+# create a log file
+log4j.appender.fout.File=crawl.log
+log4j.appender.fout.layout=org.apache.log4j.PatternLayout
+# use a more detailed message pattern java
+log4j.appender.fout.layout.ConversionPattern=%p\t%d{ISO8601}\t%r\t%c\t[%t]\t%m%n
+In the example, the FileAppender appends log events to the log file named crawl.log (which is created in the current working directory). The ConsoleAppender writes to the console using a simple pattern in which only the messages are printed, but not the more verbose information (logging level, timestamp, and so on).
+
+In addition, you can change java the component logging levels to any of these:
+DEBUG designates fine-grained informational events that are most useful to debug a crawl configuration.
+TRACE designates fine-grained informational events than DEBUG.
+ERROR designates error events that might still allow the crawler to continue running.
+FATAL designates very severe error events that will presumably lead the crawler to abort.
+INFO designates informational messages that highlight the progress of the crawl at a coarse-grained level.
+OFF has the highest possible rank and is intended to turn off logging.
+WARN designates potentially harmful situations.
+These levels allow you to monitor events of interest at the appropriate granularity without being overwhelmed by messages that are not relevant. When you are initially setting up your crawl configuration, you might want to use the DEBUG level to get all messages, and change to a less verbose level in production.
+Note the default log4j.properties file contains a number of suggested component loggers that are commented out. To use any of these loggers, remove the comment (#) character.
+
+Oracle® Endeca CAS Web Crawler Guide · Version 3.0.2 · March 2012
+
+Copyright © 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+
