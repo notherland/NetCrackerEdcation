@@ -1,9 +1,10 @@
 package one.shirokova.online_shop.user;
 
-import one.shirokova.online_shop.bag.Bag;
 import one.shirokova.online_shop.user.dao.UserDao;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserServiceImpl implements UserService{
     private static final Logger logger = Logger.getLogger("user_service");
 

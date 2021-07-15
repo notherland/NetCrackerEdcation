@@ -1,8 +1,8 @@
 package one.shirokova.online_shop.id_generator;
 
-import lombok.Data;
+import org.springframework.stereotype.Component;
 
-@Data
+@Component
 public class SequenceGenerator implements IdGenerator{
     private long id = 0;
 

@@ -4,10 +4,12 @@ import one.shirokova.online_shop.bag.Bag;
 import one.shirokova.online_shop.id_generator.IdGenerator;
 import one.shirokova.online_shop.item.Item;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class ItemDaoImpl implements ItemDao{
     private static final Logger logger = Logger.getLogger("item_dao");
 

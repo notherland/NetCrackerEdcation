@@ -3,10 +3,12 @@ package one.shirokova.online_shop.bag.dao;
 import one.shirokova.online_shop.bag.Bag;
 import one.shirokova.online_shop.id_generator.IdGenerator;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class BagDaoImpl implements BagDao{
     private static final Logger logger = Logger.getLogger("bag_dao");
 

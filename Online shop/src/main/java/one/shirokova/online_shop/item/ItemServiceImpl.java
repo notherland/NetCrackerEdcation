@@ -2,9 +2,11 @@ package one.shirokova.online_shop.item;
 
 import one.shirokova.online_shop.item.dao.ItemDao;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
+@Service
 public class ItemServiceImpl implements ItemService{
     private static final Logger logger = Logger.getLogger("item_service");
 

@@ -2,7 +2,9 @@ package one.shirokova.online_shop.bag;
 
 import one.shirokova.online_shop.bag.dao.BagDao;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
 
+@Service
 public class BagServiceImpl implements BagService{
     private static final Logger logger = Logger.getLogger("bag_service");
 

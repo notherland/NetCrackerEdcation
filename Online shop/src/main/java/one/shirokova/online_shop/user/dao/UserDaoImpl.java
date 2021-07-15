@@ -3,10 +3,12 @@ package one.shirokova.online_shop.user.dao;
 import one.shirokova.online_shop.id_generator.IdGenerator;
 import one.shirokova.online_shop.user.User;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class UserDaoImpl implements UserDao{
     private static final Logger logger = Logger.getLogger("user_dao");
 

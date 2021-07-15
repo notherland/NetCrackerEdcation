@@ -18,6 +18,10 @@ import one.shirokova.online_shop.user.UserServiceImpl;
 import one.shirokova.online_shop.user.dao.UserDao;
 import one.shirokova.online_shop.user.dao.UserDaoImpl;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.*;
 
@@ -25,9 +29,11 @@ import static one.shirokova.online_shop.item.Category.*;
 import static one.shirokova.online_shop.item.Color.*;
 
 public class Application {
-    public static void main(String[] argv){
-        Logger logger = Logger.getLogger("application");
+    static ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
 
+    private static final Logger logger = Logger.getLogger("application");
+
+    public static void main(String[] argv){
         logger.info("APPLICATION STARTED");
 
         System.out.println("Welcome to online shop");
@@ -39,22 +45,22 @@ public class Application {
                 "Remove item from bag");
 
         Scanner scanner = new Scanner(System.in);
-        IdGenerator ig = new SequenceGenerator();
 
-        ItemDao itemList = createItemList(ig);
-        ItemService itemService = new ItemServiceImpl(itemList);
+        ItemDao itemList = createItemList();
+        ItemService itemService = context.getBean(ItemServiceImpl.class);
 
-        UserDao userDao = new UserDaoImpl(ig);
+        UserDao userDao = context.getBean(UserDaoImpl.class);
         UserService userService = new UserServiceImpl(userDao);
 
-        BagDao bagDao = new BagDaoImpl(ig);
-        BagService bagService = new BagServiceImpl(bagDao);
+        BagDao bagDao = context.getBean(BagDaoImpl.class);
+        BagService bagService = context.getBean(BagServiceImpl.class);
 
         String command;
 
+        //???
         Map<Long, Integer> bag = new HashMap<>();
 
-        User curUser;
+        User curUser = null;
         Bag curBag;
 
 
@@ -114,8 +120,6 @@ public class Application {
 
                     logger.trace("Showing " + login + "' bag");
 
-                    curUser = userService.getUserByLogin(login);
-
                     if (curUser != null) {
                         long bagId = curUser.getBagId();
 
@@ -151,6 +155,7 @@ public class Application {
 
                     break;
                 }
+
                 default: {
                     System.out.println("Wrong command");
                 }
@@ -159,8 +164,8 @@ public class Application {
         }
     }
 
-    private static ItemDao createItemList(IdGenerator ig){
-        ItemDao itemList = new ItemDaoImpl(ig);
+    private static ItemDao createItemList(){
+        ItemDao itemList = context.getBean(ItemDaoImpl.class);
 
         Item item1 = new Item(1l,  SHIRT, WHITE);
         Item item2 = new Item(2l, SHIRT, RED);
