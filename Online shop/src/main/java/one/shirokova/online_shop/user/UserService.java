@@ -5,7 +5,13 @@ import one.shirokova.online_shop.item.Item;
 import java.util.List;
 
 public interface UserService {
-    public User createUser(String login);
-    public void addItem(User user, String id);
-    public boolean removeItem(User user, String id);
+    User createUser(User user);
+
+    User getUser(long id);
+
+    void removeUser(long id);
+
+    User updateUser(User user);
+
+    User getUserByLogin(String login);
 }

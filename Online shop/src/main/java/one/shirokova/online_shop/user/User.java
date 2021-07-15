@@ -1,10 +1,14 @@
 package one.shirokova.online_shop.user;
 
+import lombok.Builder;
 import lombok.Data;
-import one.shirokova.online_shop.bag.Bag;
+import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 public class User {
+    private Long id;
     private String login;
-    private Bag bag;
+    private String password;
+    private Long bagId;
 }

@@ -1,12 +1,22 @@
 package one.shirokova.online_shop;
 
+import one.shirokova.online_shop.bag.Bag;
+import one.shirokova.online_shop.bag.BagService;
+import one.shirokova.online_shop.bag.BagServiceImpl;
+import one.shirokova.online_shop.bag.dao.BagDao;
+import one.shirokova.online_shop.bag.dao.BagDaoImpl;
+import one.shirokova.online_shop.id_generator.IdGenerator;
+import one.shirokova.online_shop.id_generator.SequenceGenerator;
 import one.shirokova.online_shop.item.Item;
-import one.shirokova.online_shop.item_list.ItemList;
-import one.shirokova.online_shop.item_list.ItemListService;
-import one.shirokova.online_shop.item_list.ItemListServiceImpl;
+import one.shirokova.online_shop.item.ItemService;
+import one.shirokova.online_shop.item.ItemServiceImpl;
+import one.shirokova.online_shop.item.dao.ItemDao;
+import one.shirokova.online_shop.item.dao.ItemDaoImpl;
 import one.shirokova.online_shop.user.User;
 import one.shirokova.online_shop.user.UserService;
 import one.shirokova.online_shop.user.UserServiceImpl;
+import one.shirokova.online_shop.user.dao.UserDao;
+import one.shirokova.online_shop.user.dao.UserDaoImpl;
 import org.apache.log4j.Logger;
 
 import java.util.*;
@@ -22,18 +32,30 @@ public class Application {
 
         System.out.println("Welcome to online shop");
         System.out.println("List of commands: " +
-                "Enter with login, " +
+                "Create user, " +
                 "Choose category, " +
                 "Show user's bag, " +
                 "Add item to bag, " +
                 "Remove item from bag");
 
         Scanner scanner = new Scanner(System.in);
-        ItemList itemList = createItemList();
-        ItemListService itemListService = new ItemListServiceImpl();
-        User curUser = null;
-        UserService userService = new UserServiceImpl();
+        IdGenerator ig = new SequenceGenerator();
+
+        ItemDao itemList = createItemList(ig);
+        ItemService itemService = new ItemServiceImpl(itemList);
+
+        UserDao userDao = new UserDaoImpl(ig);
+        UserService userService = new UserServiceImpl(userDao);
+
+        BagDao bagDao = new BagDaoImpl(ig);
+        BagService bagService = new BagServiceImpl(bagDao);
+
         String command;
+
+        Map<Long, Integer> bag = new HashMap<>();
+
+        User curUser;
+        Bag curBag;
 
 
         while (true){
@@ -44,15 +66,26 @@ public class Application {
 
             switch (command){
 
-                case "Enter with login": {
+                case "Create user": {
                     System.out.println("Enter login: ");
                     String login = scanner.nextLine();
 
+                    System.out.println("Enter password: ");
+                    String password = scanner.nextLine();
+
                     logger.trace("Creating user with login " + login);
 
-                    curUser = userService.createUser(login);
+                    curBag = bagDao.createBag(Bag.builder().
+                            items(bag).build());
 
-                    logger.trace("User " + login + " was created");
+                    bagService.createBag(curBag);
+
+                    curUser = userDao.createUser((User.builder().login(login)
+                                                                .password(password)
+                                                                .bagId(curBag.getId())
+                                                                .build()));
+
+                    logger.trace("User with id" + curUser.getId() + " was created");
 
                     break;
                 }
@@ -64,7 +97,7 @@ public class Application {
 
                     logger.trace("Chosen category is " + category);
 
-                    Map<String, Item> categoryList= itemListService.getCategoryList(category, itemList);
+                    Map<String, Item> categoryList = itemService.getCategoryList(category, itemList);
 
                     if (categoryList == null) {
                         System.out.println("No such category");
@@ -81,8 +114,12 @@ public class Application {
 
                     logger.trace("Showing " + login + "' bag");
 
+                    curUser = userService.getUserByLogin(login);
+
                     if (curUser != null) {
-                        System.out.println(curUser.getBag());
+                        long bagId = curUser.getBagId();
+
+                        System.out.println(bagService.getBag(bagId));
                     } else{
                         System.out.println("Please enter with login");
                     }
@@ -98,8 +135,6 @@ public class Application {
 
                     logger.trace("Adding item " + id + " to bag");
 
-                    userService.addItem(curUser, id);
-
                     logger.trace("Added item " + id + " to bag");
 
                     break;
@@ -111,8 +146,6 @@ public class Application {
 
                     logger.trace("Removing item " + id + " to bag");
 
-                    if (!userService.removeItem(curUser, id))
-                        System.out.println("No such item in bag");
 
                     logger.trace("Added item " + id + " to bag");
 
@@ -126,20 +159,20 @@ public class Application {
         }
     }
 
-    private static ItemList createItemList(){
-        ItemList itemList = new ItemList();
+    private static ItemDao createItemList(IdGenerator ig){
+        ItemDao itemList = new ItemDaoImpl(ig);
 
-        Item item1 = new Item("Sh1", SHIRT, WHITE);
-        Item item2 = new Item("Sh2", SHIRT, RED);
-        Item item3 = new Item("Tr1", TROUSERS, BLACK);
-        Item item4 = new Item("Sk1", SKIRT, GREEN);
-        Item item5 = new Item("Sk2", SKIRT, YELLOW);
+        Item item1 = new Item(1l,  SHIRT, WHITE);
+        Item item2 = new Item(2l, SHIRT, RED);
+        Item item3 = new Item(3l, TROUSERS, BLACK);
+        Item item4 = new Item(4l, SKIRT, GREEN);
+        Item item5 = new Item(5l, SKIRT, YELLOW);
 
-        itemList.addItem(item1);
-        itemList.addItem(item2);
-        itemList.addItem(item3);
-        itemList.addItem(item4);
-        itemList.addItem(item5);
+        itemList.createItem(item1);
+        itemList.createItem(item2);
+        itemList.createItem(item3);
+        itemList.createItem(item4);
+        itemList.createItem(item5);
 
         return itemList;
     }
