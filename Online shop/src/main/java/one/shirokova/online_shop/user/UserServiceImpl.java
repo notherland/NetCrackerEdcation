@@ -1,8 +1,11 @@
 package one.shirokova.online_shop.user;
 
+import one.shirokova.online_shop.bag.BagService;
 import one.shirokova.online_shop.user.dao.UserDao;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -45,7 +48,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User getUserByLogin(String login) {
-        return null;
+    public User findByLogin(String login) {
+        return userDao.findByLogin(login);
     }
 }

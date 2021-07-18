@@ -11,8 +11,9 @@ public interface ItemService {
 
     void removeItem(long id);
 
-    Item updateItem(Item bag);
+    Item updateItem(Item item);
 
+    Map<Long, Item> getItemList();
 
-    Map<String, Item> getCategoryList(String category, ItemDao itemList);
+    Map<String, Item> getCategoryList(String category);
 }

@@ -77,4 +77,14 @@ public class ItemDaoImpl implements ItemDao{
 
         return item;
     }
+
+    @Override
+    public Map<Long, Item> getItemList() {
+        Map<Long, Item> copy = new HashMap<>();
+        for (Map.Entry<Long, Item> entry : items.entrySet())
+        {
+            copy.put(entry.getKey(), entry.getValue());
+        }
+        return copy;
+    }
 }

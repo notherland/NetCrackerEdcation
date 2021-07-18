@@ -9,7 +9,7 @@ import java.util.Map;
 
 @Data
 @Builder
-public class Bag {
+public class Bag{
     private Long id = 0l;
     private Map<Long, Integer> items = new HashMap<>();
 }

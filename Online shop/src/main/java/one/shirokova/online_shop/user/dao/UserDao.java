@@ -11,4 +11,6 @@ public interface UserDao {
     void removeUser(long id);
 
     User updateUser(User user);
+
+    User findByLogin(String login);
 }

@@ -3,6 +3,7 @@ package one.shirokova.online_shop.user;
 import one.shirokova.online_shop.item.Item;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
     User createUser(User user);
@@ -13,5 +14,5 @@ public interface UserService {
 
     User updateUser(User user);
 
-    User getUserByLogin(String login);
+    User findByLogin(String login);
 }

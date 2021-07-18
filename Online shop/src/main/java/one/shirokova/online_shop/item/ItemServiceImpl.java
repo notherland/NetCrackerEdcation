@@ -16,7 +16,6 @@ public class ItemServiceImpl implements ItemService{
         this.itemDao = itemDao;
     }
 
-
     @Override
     public Item createItem(Item item) {
         //Проверки
@@ -39,7 +38,13 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public Map<String, Item> getCategoryList(String category, ItemDao itemList) {
+    public Map<Long, Item> getItemList() {
+        return itemDao.getItemList();
+    }
+
+
+    @Override
+    public Map<String, Item> getCategoryList(String category) {
         return null;
     }
 }

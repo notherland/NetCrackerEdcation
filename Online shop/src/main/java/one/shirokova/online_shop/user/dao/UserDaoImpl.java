@@ -75,4 +75,14 @@ public class UserDaoImpl implements UserDao{
 
         return user;
     }
+
+    @Override
+    public User findByLogin(String login) {
+        for (User user:users.values()){
+            if (login.equals(user.getLogin()))
+                return getUser(user.getId());
+        }
+
+        return null;
+    }
 }
