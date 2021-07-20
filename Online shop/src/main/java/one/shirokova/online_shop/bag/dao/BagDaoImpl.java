@@ -1,5 +1,6 @@
 package one.shirokova.online_shop.bag.dao;
 
+import lombok.extern.slf4j.Slf4j;
 import one.shirokova.online_shop.bag.Bag;
 import one.shirokova.online_shop.id_generator.IdGenerator;
 import org.apache.log4j.Logger;
@@ -8,9 +9,9 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @Component
 public class BagDaoImpl implements BagDao{
-    private static final Logger logger = Logger.getLogger("bag_dao");
 
     private Map<Long, Bag> bags = new HashMap<>();
 
@@ -39,7 +40,7 @@ public class BagDaoImpl implements BagDao{
 
     @Override
     public Bag getBag(long id) {
-        logger.trace("Getting bag with " + id);
+        log.trace("Getting bag with " + id);
         Bag stored = bags.get(id);
 
         //???????
@@ -50,7 +51,7 @@ public class BagDaoImpl implements BagDao{
 
     @Override
     public void removeBag(long id) {
-        logger.trace("Removing bag with " + id);
+        log.trace("Removing bag with " + id);
 
         bags.remove(id);
     }
@@ -59,16 +60,16 @@ public class BagDaoImpl implements BagDao{
     public Bag updateBag(Bag bag) {
         Bag initialBag = bags.get(bag.getId());
 
-        logger.trace("Updating bag with id " + bag.getId());
+        log.trace("Updating bag with id " + bag.getId());
 
         if (initialBag == null){
-            logger.warn("Updating bag with id " + initialBag.getId() + " failed: bag does not exist");
+            log.warn("Updating bag with id " + initialBag.getId() + " failed: bag does not exist");
             throw new RuntimeException("There is no bag with id" + bag.getId());
         }
 
         initialBag.setItems(bag.getItems());
 
-        logger.trace("Updated bag with id " + bag.getId());
+        log.trace("Updated bag with id " + bag.getId());
 
         return bag;
     }

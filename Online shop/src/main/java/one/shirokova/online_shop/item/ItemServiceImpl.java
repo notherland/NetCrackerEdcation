@@ -1,14 +1,15 @@
 package one.shirokova.online_shop.item;
 
+import lombok.extern.slf4j.Slf4j;
 import one.shirokova.online_shop.item.dao.ItemDao;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
+@Slf4j
 @Service
 public class ItemServiceImpl implements ItemService{
-    private static final Logger logger = Logger.getLogger("item_service");
 
     private final ItemDao itemDao;
 

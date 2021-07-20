@@ -1,5 +1,6 @@
 package one.shirokova.online_shop.user.dao;
 
+import lombok.extern.slf4j.Slf4j;
 import one.shirokova.online_shop.id_generator.IdGenerator;
 import one.shirokova.online_shop.user.User;
 import org.apache.log4j.Logger;
@@ -8,9 +9,9 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @Component
 public class UserDaoImpl implements UserDao{
-    private static final Logger logger = Logger.getLogger("user_dao");
 
     private Map<Long, User> users = new HashMap<>();
 
@@ -40,7 +41,7 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public User getUser(long id) {
-        logger.trace("Getting user with " + id);
+        log.trace("Getting user with " + id);
         User stored = users.get(id);
         return User.builder()
                 .id(stored.getId())
@@ -51,7 +52,7 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public void removeUser(long id) {
-        logger.trace("Removing user with " + id);
+        log.trace("Removing user with " + id);
 
         users.remove(id);
     }
@@ -60,10 +61,10 @@ public class UserDaoImpl implements UserDao{
     public User updateUser(User user) {
         User initialUser = users.get(user.getId());
 
-        logger.trace("Updating user with id " + user.getId());
+        log.trace("Updating user with id " + user.getId());
 
         if (initialUser == null){
-            logger.warn("Updating user with id " + initialUser.getId() + " failed: user does not exist");
+            log.warn("Updating user with id " + initialUser.getId() + " failed: user does not exist");
             throw new RuntimeException("There is no user with id" + user.getId());
         }
 
@@ -71,7 +72,7 @@ public class UserDaoImpl implements UserDao{
         initialUser.setPassword(user.getPassword());
         initialUser.setBagId(user.getBagId());
 
-        logger.trace("Updated user with id " + user.getId());
+        log.trace("Updated user with id " + user.getId());
 
         return user;
     }

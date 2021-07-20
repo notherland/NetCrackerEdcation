@@ -1,6 +1,6 @@
 package one.shirokova.online_shop.item.dao;
 
-import one.shirokova.online_shop.bag.Bag;
+import lombok.extern.slf4j.Slf4j;
 import one.shirokova.online_shop.id_generator.IdGenerator;
 import one.shirokova.online_shop.item.Item;
 import org.apache.log4j.Logger;
@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @Component
 public class ItemDaoImpl implements ItemDao{
-    private static final Logger logger = Logger.getLogger("item_dao");
 
     //??? Раскидать по категориям?
     private Map<Long, Item> items = new HashMap<>();
@@ -41,7 +41,7 @@ public class ItemDaoImpl implements ItemDao{
 
     @Override
     public Item getItem(long id) {
-        logger.trace("Getting item with " + id);
+        log.trace("Getting item with " + id);
 
         Item stored = items.get(id);
 
@@ -54,7 +54,7 @@ public class ItemDaoImpl implements ItemDao{
 
     @Override
     public void removeItem(long id) {
-        logger.trace("Removing item with " + id);
+        log.trace("Removing item with " + id);
 
         items.remove(id);
     }
@@ -63,17 +63,17 @@ public class ItemDaoImpl implements ItemDao{
     public Item updateItem(Item item) {
         Item initialItem = items.get(item.getId());
 
-        logger.trace("Updating Item with id " + item.getId());
+        log.trace("Updating Item with id " + item.getId());
 
         if (initialItem == null){
-            logger.warn("Updating item with id " + initialItem.getId() + " failed: item does not exist");
+            log.warn("Updating item with id " + initialItem.getId() + " failed: item does not exist");
             throw new RuntimeException("There is no item with id" + item.getId());
         }
 
         initialItem.setCategory(initialItem.getCategory());
         initialItem.setColor(initialItem.getColor());
 
-        logger.trace("Updated bag with id " + item.getId());
+        log.trace("Updated bag with id " + item.getId());
 
         return item;
     }

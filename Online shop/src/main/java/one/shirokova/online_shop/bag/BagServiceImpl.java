@@ -1,5 +1,6 @@
 package one.shirokova.online_shop.bag;
 
+import lombok.extern.slf4j.Slf4j;
 import one.shirokova.online_shop.bag.dao.BagDao;
 import one.shirokova.online_shop.item.Item;
 import org.apache.log4j.Logger;
@@ -8,9 +9,9 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @Service
 public class BagServiceImpl implements BagService{
-    private static final Logger logger = Logger.getLogger("bag_service");
 
     private final BagDao bagDao;
 
