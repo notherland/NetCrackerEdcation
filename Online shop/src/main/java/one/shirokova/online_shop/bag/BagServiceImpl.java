@@ -5,12 +5,17 @@ import one.shirokova.online_shop.bag.dao.BagDao;
 import one.shirokova.online_shop.item.Item;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
 @Service
+@RestController
+@RequestMapping(value = "/bag")
 public class BagServiceImpl implements BagService{
 
     private final BagDao bagDao;
@@ -19,11 +24,13 @@ public class BagServiceImpl implements BagService{
         this.bagDao = bagDao;
     }
 
+    @RequestMapping(method = RequestMethod.POST)
     @Override
     public Bag createBag(Bag bag) {
         return bagDao.createBag(bag);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/?id=<id>")
     @Override
     public Bag getBag(long id) {
         Map<Long, Integer> copy = new HashMap<>();
@@ -36,6 +43,7 @@ public class BagServiceImpl implements BagService{
                 .items(copy).build();
     }
 
+    @RequestMapping(method = RequestMethod.DELETE, value = "/?id=<id>")
     @Override
     public void removeBag(long id) {
         bagDao.removeBag(id);
