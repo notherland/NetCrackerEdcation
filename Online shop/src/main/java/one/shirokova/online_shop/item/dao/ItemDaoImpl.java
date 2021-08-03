@@ -3,7 +3,6 @@ package one.shirokova.online_shop.item.dao;
 import lombok.extern.slf4j.Slf4j;
 import one.shirokova.online_shop.id_generator.IdGenerator;
 import one.shirokova.online_shop.item.Item;
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;

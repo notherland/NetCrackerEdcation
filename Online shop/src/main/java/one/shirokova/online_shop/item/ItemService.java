@@ -1,13 +1,13 @@
 package one.shirokova.online_shop.item;
 
-import one.shirokova.online_shop.item.dao.ItemDao;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Map;
 
 public interface ItemService {
-    Item createItem(Item item);
+    ResponseEntity<Item> createItem(Item item);
 
-    Item getItem(long id);
+    ResponseEntity<Item> getItem(long id);
 
     void removeItem(long id);
 

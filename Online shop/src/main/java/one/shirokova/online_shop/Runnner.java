@@ -77,17 +77,17 @@ public class Runnner implements CommandLineRunner {
 
                     Map<Long, Integer> bagList = new HashMap<>();
 
-                    Bag bag = bagService.createBag(Bag.builder().
-                            items(bagList).build());
-
-                    bagService.createBag(bag);
-
-                    User user = userService.createUser((User.builder().login(login)
-                            .password(password)
-                            .bagId(bag.getId())
-                            .build()));
-
-                    log.trace("User with id" + user.getId() + " was created");
+//                    Bag bag = bagService.createBag(Bag.builder().
+//                            items(bagList).build());
+//
+//                    bagService.createBag(bag);
+//
+//                    User user = userService.createUser((User.builder().login(login)
+//                            .password(password)
+//                            .bagId(bag.getId())
+//                            .build()));
+//
+//                    log.trace("User with id" + user.getId() + " was created");
 
                     break;
                 }

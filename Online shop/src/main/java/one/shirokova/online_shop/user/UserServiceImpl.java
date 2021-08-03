@@ -2,8 +2,10 @@ package one.shirokova.online_shop.user;
 
 import lombok.extern.slf4j.Slf4j;
 import one.shirokova.online_shop.user.dao.UserDao;
-import org.apache.log4j.Logger;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,24 +24,24 @@ public class UserServiceImpl implements UserService{
 
     @RequestMapping(method = RequestMethod.POST)
     @Override
-    public User createUser(User user) {
+    public ResponseEntity<User> createUser(@RequestBody User user) {
         log.trace("Creating user with login" + user.getLogin());
 
         // Проверка на единственность, проверка пароля
 
-        return userDao.createUser(user);
+        return new ResponseEntity<>(userDao.createUser(user), HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/?id=<id>")
     @Override
-    public User getUser(long id) {
+    public ResponseEntity<User> getUser(@RequestBody long id) {
         log.trace("Getting user with " + id);
 
-        return userDao.getUser(id);
+        return new ResponseEntity<>(userDao.getUser(id), HttpStatus.ACCEPTED);
     }
     @RequestMapping(method = RequestMethod.DELETE, value = "/?id=<id>")
     @Override
-    public void removeUser(long id) {
+    public void removeUser(@RequestBody long id) {
         log.trace("Removing user with " + id);
 
         userDao.removeUser(id);

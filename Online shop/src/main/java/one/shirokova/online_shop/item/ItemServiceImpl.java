@@ -2,8 +2,10 @@ package one.shirokova.online_shop.item;
 
 import lombok.extern.slf4j.Slf4j;
 import one.shirokova.online_shop.item.dao.ItemDao;
-import org.apache.log4j.Logger;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,20 +26,20 @@ public class ItemServiceImpl implements ItemService{
 
     @RequestMapping(method = RequestMethod.POST)
     @Override
-    public Item createItem(Item item) {
+    public ResponseEntity<Item> createItem(@RequestBody Item item) {
         //Проверки
-        return itemDao.createItem(item);
+        return new ResponseEntity<>(itemDao.createItem(item), HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/?id=<id>")
     @Override
-    public Item getItem(long id) {
-        return itemDao.getItem(id);
+    public ResponseEntity<Item> getItem(@RequestBody long id) {
+        return new ResponseEntity<>(itemDao.getItem(id), HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/?id=<id>")
     @Override
-    public void removeItem(long id) {
+    public void removeItem(@RequestBody long id) {
         itemDao.removeItem(id);
     }
 

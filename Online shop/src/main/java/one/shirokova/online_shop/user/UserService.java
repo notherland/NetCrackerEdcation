@@ -1,14 +1,11 @@
 package one.shirokova.online_shop.user;
 
-import one.shirokova.online_shop.item.Item;
-
-import java.util.List;
-import java.util.Map;
+import org.springframework.http.ResponseEntity;
 
 public interface UserService {
-    User createUser(User user);
+    ResponseEntity<User> createUser(User user);
 
-    User getUser(long id);
+    ResponseEntity<User> getUser(long id);
 
     void removeUser(long id);
 

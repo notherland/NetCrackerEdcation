@@ -1,14 +1,11 @@
 package one.shirokova.online_shop.bag;
 
-import one.shirokova.online_shop.item.*;
-import one.shirokova.online_shop.user.User;
-
-import java.util.List;
+import org.springframework.http.ResponseEntity;
 
 public interface BagService {
-    Bag createBag(Bag bag);
+    ResponseEntity<Bag> createBag(Bag bag);
 
-    Bag getBag(long id);
+    ResponseEntity<Bag> getBag(long id);
 
     void removeBag(long id);
 
