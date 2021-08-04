@@ -1,16 +1,12 @@
 package one.shirokova.online_shop;
 
 import lombok.extern.slf4j.Slf4j;
-import one.shirokova.online_shop.bag.Bag;
 import one.shirokova.online_shop.bag.BagService;
 import one.shirokova.online_shop.id_generator.IdGenerator;
-import one.shirokova.online_shop.item.Item;
+import one.shirokova.online_shop.item.ItemDTO;
 import one.shirokova.online_shop.item.ItemService;
-import one.shirokova.online_shop.item.dao.ItemDaoImpl;
-import one.shirokova.online_shop.user.User;
+import one.shirokova.online_shop.user.UserDTO;
 import one.shirokova.online_shop.user.UserService;
-import one.shirokova.online_shop.user.dao.UserDao;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -99,7 +95,7 @@ public class Runnner implements CommandLineRunner {
 
                     log.trace("Chosen category is " + category);
 
-                    Map<String, Item> categoryList = itemService.getCategoryList(category);
+                    Map<String, ItemDTO> categoryList = itemService.getCategoryList(category);
 
                     if (categoryList == null) {
                         System.out.println("No such category");
@@ -124,7 +120,7 @@ public class Runnner implements CommandLineRunner {
 
                     log.trace("Showing " + login + "' bag");
 
-                    User user = userService.findByLogin(login);
+                    UserDTO user = userService.findByLogin(login);
 
                     if (user != null) {
                         long bagId = user.getBagId();
@@ -142,7 +138,7 @@ public class Runnner implements CommandLineRunner {
                 case "Add item to bag": {
                     System.out.println("Enter login: ");
                     String login = scanner.nextLine();
-                    User user = userService.findByLogin(login);
+                    UserDTO user = userService.findByLogin(login);
                     Long bagId = user.getBagId();
 
                     System.out.println("Enter item id: ");
@@ -160,7 +156,7 @@ public class Runnner implements CommandLineRunner {
                 case  "Remove item from bag": {
                     System.out.println("Enter login: ");
                     String login = scanner.nextLine();
-                    User user = userService.findByLogin(login);
+                    UserDTO user = userService.findByLogin(login);
                     Long bagId = user.getBagId();
 
                     System.out.println("Enter item id: ");
@@ -184,11 +180,11 @@ public class Runnner implements CommandLineRunner {
     }
 
     private void createItemList(){
-        Item item1 = new Item(1l,  SHIRT, WHITE);
-        Item item2 = new Item(2l, SHIRT, RED);
-        Item item3 = new Item(3l, TROUSERS, BLACK);
-        Item item4 = new Item(4l, SKIRT, GREEN);
-        Item item5 = new Item(5l, SKIRT, YELLOW);
+        ItemDTO item1 = new ItemDTO(1l,  SHIRT, WHITE);
+        ItemDTO item2 = new ItemDTO(2l, SHIRT, RED);
+        ItemDTO item3 = new ItemDTO(3l, TROUSERS, BLACK);
+        ItemDTO item4 = new ItemDTO(4l, SKIRT, GREEN);
+        ItemDTO item5 = new ItemDTO(5l, SKIRT, YELLOW);
 
         itemService.createItem(item1);
         itemService.createItem(item2);

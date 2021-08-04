@@ -6,18 +6,24 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import one.shirokova.online_shop.entity.User;
+
+import javax.persistence.*;
 
 @Data
 @Builder
 @AllArgsConstructor
-public class User {
-    public User() {}
+public class UserDTO extends User {
+    public UserDTO() {}
 
     @JsonIgnore
     private Long id;
+
     @JsonProperty(value = "login")
     private String login;
+
     @JsonProperty(value = "password")
     private String password;
-    private Long bagId;
+
+    private long bagId;
 }

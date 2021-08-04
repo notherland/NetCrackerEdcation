@@ -3,13 +3,13 @@ package one.shirokova.online_shop.user;
 import org.springframework.http.ResponseEntity;
 
 public interface UserService {
-    ResponseEntity<User> createUser(User user);
+    ResponseEntity<UserDTO> createUser(UserDTO user);
 
-    ResponseEntity<User> getUser(long id);
+    ResponseEntity<UserDTO> getUser(long id);
 
     void removeUser(long id);
 
-    User updateUser(User user);
+    UserDTO updateUser(UserDTO user);
 
-    User findByLogin(String login);
+    UserDTO findByLogin(String login);
 }

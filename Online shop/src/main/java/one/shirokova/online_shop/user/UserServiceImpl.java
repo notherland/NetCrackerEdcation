@@ -1,7 +1,8 @@
 package one.shirokova.online_shop.user;
 
 import lombok.extern.slf4j.Slf4j;
-import one.shirokova.online_shop.user.dao.UserDao;
+import one.shirokova.online_shop.entity.User;
+import one.shirokova.online_shop.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -10,52 +11,66 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @Slf4j
 @Service
 @RestController
 @RequestMapping(value = "/user")
 public class UserServiceImpl implements UserService{
 
-    private final UserDao userDao;
+    private final UserRepository userRepository;
 
-    public UserServiceImpl(UserDao userDao) {
-        this.userDao = userDao;
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @RequestMapping(method = RequestMethod.POST)
     @Override
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO user) {
         log.trace("Creating user with login" + user.getLogin());
 
         // Проверка на единственность, проверка пароля
 
-        return new ResponseEntity<>(userDao.createUser(user), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(userRepository.save(user), HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/?id=<id>")
     @Override
-    public ResponseEntity<User> getUser(@RequestBody long id) {
+    public ResponseEntity<UserDTO> getUser(@RequestBody long id) {
         log.trace("Getting user with " + id);
 
-        return new ResponseEntity<>(userDao.getUser(id), HttpStatus.ACCEPTED);
+        User user = userRepository.findById(id).get();
+
+        return new ResponseEntity<>(UserDTO.builder()
+                .id(user.getId())
+                .login(user.getLogin())
+                .password(user.getPassword())
+                .bagId(user.getBagId()).build(), HttpStatus.ACCEPTED);
     }
+
     @RequestMapping(method = RequestMethod.DELETE, value = "/?id=<id>")
     @Override
     public void removeUser(@RequestBody long id) {
         log.trace("Removing user with " + id);
 
-        userDao.removeUser(id);
+        userRepository.deleteById(id);
     }
 
     @Override
-    public User updateUser(User user) {
+    public UserDTO updateUser(UserDTO user) {
         log.trace("Updating user with id" + user.getId());
 
-        return userDao.updateUser(user);
+        return null;
     }
 
     @Override
-    public User findByLogin(String login) {
-        return userDao.findByLogin(login);
+    public UserDTO findByLogin(String login) {
+        User user = userRepository.findByLogin(login).get();
+        return UserDTO.builder()
+                .id(user.getId())
+                .login(user.getLogin())
+                .password(user.getPassword())
+                .bagId(user.getBagId()).build();
     }
 }

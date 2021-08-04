@@ -1,7 +1,8 @@
 package one.shirokova.online_shop.bag;
 
 import lombok.extern.slf4j.Slf4j;
-import one.shirokova.online_shop.bag.dao.BagDao;
+import one.shirokova.online_shop.entity.Bag;
+import one.shirokova.online_shop.repository.BagRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,65 +20,42 @@ import java.util.Map;
 @RequestMapping(value = "/bag")
 public class BagServiceImpl implements BagService{
 
-    private final BagDao bagDao;
+    private final BagRepository bagRepository;
 
-    public BagServiceImpl(BagDao bagDao) {
-        this.bagDao = bagDao;
+    public BagServiceImpl(BagRepository bagRepository) {
+        this.bagRepository = bagRepository;
     }
 
     @RequestMapping(method = RequestMethod.POST)
     @Override
-    public ResponseEntity<Bag> createBag(Bag bag) {
-        return new ResponseEntity<>(bagDao.createBag(bag), HttpStatus.ACCEPTED);
+    public ResponseEntity<BagDTO> createBag(BagDTO bag) {
+        return new ResponseEntity<>(bagRepository.save(bag), HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/?id=<id>")
     @Override
-    public ResponseEntity<Bag> getBag(@RequestBody long id) {
-        Map<Long, Integer> copy = new HashMap<>();
-        for (Map.Entry<Long, Integer> entry : bagDao.getBag(id).getItems().entrySet())
-        {
-            copy.put(entry.getKey(), entry.getValue());
-        }
-        return new ResponseEntity(Bag.builder()
-                .id(id)
-                .items(copy).build(), HttpStatus.ACCEPTED);
+    public ResponseEntity<BagDTO> getBag(@RequestBody long id) {
+        Bag bag = bagRepository.findById(id).get();
+        return new ResponseEntity(BagDTO.builder()
+                .id(bag.getId()).build(), HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/?id=<id>")
     @Override
     public void removeBag(@RequestBody long id) {
-        bagDao.removeBag(id);
+        bagRepository.deleteById(id);
     }
 
     @Override
-    public Bag updateBag(Bag bag) {
-        return bagDao.updateBag(bag);
+    public BagDTO updateBag(BagDTO bag) {
+        return null;
     }
 
     @Override
     public void addItemToBag(Long bagId, Long itemId) {
-        Bag bag = getBag(bagId).getBody();
-        Map list = bag.getItems();
-
-        if (null == list.get(itemId)) {
-            list.put(itemId, 1);
-        } else{
-            list.put(itemId, (Long)list.get(itemId) + 1);
-        }
-
-        bagDao.updateBag(bag);
     }
 
     @Override
     public void removeItemFromBag(Long bagId, Long itemId) {
-        Bag bag = getBag(bagId).getBody();
-        Map list = bag.getItems();
-
-        if (null != list.get(itemId)) {
-            list.put(itemId, (Long)list.get(itemId) - 1);
-        }
-
-        bagDao.updateBag(bag);
     }
 }

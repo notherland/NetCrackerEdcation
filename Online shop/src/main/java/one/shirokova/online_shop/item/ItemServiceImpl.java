@@ -1,7 +1,8 @@
 package one.shirokova.online_shop.item;
 
 import lombok.extern.slf4j.Slf4j;
-import one.shirokova.online_shop.item.dao.ItemDao;
+import one.shirokova.online_shop.entity.Item;
+import one.shirokova.online_shop.repository.ItemRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,44 +19,37 @@ import java.util.Map;
 @RequestMapping(value="/item")
 public class ItemServiceImpl implements ItemService{
 
-    private final ItemDao itemDao;
+    private final ItemRepository itemRepository;
 
-    public ItemServiceImpl(ItemDao itemDao) {
-        this.itemDao = itemDao;
+    public ItemServiceImpl(ItemRepository itemRepository) {
+        this.itemRepository = itemRepository;
     }
 
     @RequestMapping(method = RequestMethod.POST)
     @Override
-    public ResponseEntity<Item> createItem(@RequestBody Item item) {
+    public ResponseEntity<ItemDTO> createItem(@RequestBody ItemDTO item) {
         //Проверки
-        return new ResponseEntity<>(itemDao.createItem(item), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(itemRepository.save(item), HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/?id=<id>")
     @Override
-    public ResponseEntity<Item> getItem(@RequestBody long id) {
-        return new ResponseEntity<>(itemDao.getItem(id), HttpStatus.ACCEPTED);
+    public ResponseEntity<ItemDTO> getItem(@RequestBody long id) {
+        Item item = itemRepository.findById(id).get();
+        return new ResponseEntity<>(ItemDTO.builder()
+                .id(item.getId())
+                .category(item.getCategory())
+                .color(item.getColor()).build(), HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/?id=<id>")
     @Override
     public void removeItem(@RequestBody long id) {
-        itemDao.removeItem(id);
+        itemRepository.deleteById(id);
     }
 
     @Override
-    public Item updateItem(Item item) {
-        return itemDao.updateItem(item);
-    }
-
-    @Override
-    public Map<Long, Item> getItemList() {
-        return itemDao.getItemList();
-    }
-
-
-    @Override
-    public Map<String, Item> getCategoryList(String category) {
+    public ItemDTO updateItem(ItemDTO item) {
         return null;
     }
 }
