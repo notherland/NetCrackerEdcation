@@ -29,7 +29,7 @@ public class BagServiceImpl implements BagService{
     @RequestMapping(method = RequestMethod.POST)
     @Override
     public ResponseEntity<BagDTO> createBag(BagDTO bag) {
-        return new ResponseEntity<>(bagRepository.save(bag), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(bagRepository.saveAndFlush(bag), HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/?id=<id>")

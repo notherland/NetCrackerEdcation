@@ -49,8 +49,6 @@ public class Runnner implements CommandLineRunner {
 
         Scanner scanner = new Scanner(System.in);
 
-        createItemList();
-
         String command;
 
 
@@ -89,28 +87,6 @@ public class Runnner implements CommandLineRunner {
                 }
 
                 case "Choose category": {
-                    System.out.println("Available categories : Shirt, Trousers, Skirt, Sweater" +
-                            "\nEnter category: ");
-                    String category = scanner.nextLine();
-
-                    log.trace("Chosen category is " + category);
-
-                    Map<String, ItemDTO> categoryList = itemService.getCategoryList(category);
-
-                    if (categoryList == null) {
-                        System.out.println("No such category");
-                    } else {
-                        System.out.println(categoryList);
-                    }
-
-                    break;
-                }
-
-                case "Show item list":{
-                    log.info("Show item list");
-
-                    System.out.println(itemService.getItemList());
-
                     break;
                 }
 

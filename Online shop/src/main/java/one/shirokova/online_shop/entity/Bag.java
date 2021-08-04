@@ -13,10 +13,9 @@ import java.util.Map;
 
 @Data
 @Entity
-@Table(name = "bags")
+@Table(name = "bags", schema = "Online_shop")
 public class Bag{
     @Id
     @GeneratedValue
     private Long id = 0l;
-    private Map<Long, Integer> items = new HashMap<>();
 }

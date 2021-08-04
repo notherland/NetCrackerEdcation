@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "users")
-@Builder
+@Table(name = "users", schema = "Online_shop")
 @Data
+@AllArgsConstructor
 public class User {
     public User() {}
 

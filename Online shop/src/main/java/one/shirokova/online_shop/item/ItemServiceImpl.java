@@ -29,7 +29,7 @@ public class ItemServiceImpl implements ItemService{
     @Override
     public ResponseEntity<ItemDTO> createItem(@RequestBody ItemDTO item) {
         //Проверки
-        return new ResponseEntity<>(itemRepository.save(item), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(itemRepository.saveAndFlush(item), HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/?id=<id>")

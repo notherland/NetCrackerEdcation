@@ -13,14 +13,11 @@ import one.shirokova.online_shop.entity.Item;
 @Builder
 public class ItemDTO extends Item {
     @JsonIgnore
-    private Long id;
+    private long id;
     @JsonProperty(value = "category")
     private Category category;
     @JsonProperty(value = "color")
     private Color color;
 
-    public ItemDTO() {
-
-    }
 }
 

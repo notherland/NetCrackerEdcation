@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService{
 
         // Проверка на единственность, проверка пароля
 
-        return new ResponseEntity<>(userRepository.save(user), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(userRepository.saveAndFlush(user), HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/?id=<id>")
